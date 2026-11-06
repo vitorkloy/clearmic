@@ -1,0 +1,5 @@
+node_modules/
+dist/
+src/vendor/
+test/*.wav
+!test/clean.wav

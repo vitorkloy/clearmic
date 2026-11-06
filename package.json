@@ -1,0 +1,35 @@
+{
+  "name": "calmo",
+  "version": "0.1.0",
+  "description": "Cancelamento de ruído do microfone para Windows (estilo Krisp), CPU-only.",
+  "main": "src/main.js",
+  "scripts": {
+    "postinstall": "node scripts/vendor.mjs",
+    "start": "electron .",
+    "test:dsp": "node scripts/test-dsp.mjs",
+    "dist": "electron-builder --win portable nsis"
+  },
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@shiguredo/rnnoise-wasm": "^2025.1.5"
+  },
+  "build": {
+    "appId": "com.vitorkloy.calmo",
+    "productName": "Calmo",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^26.18.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+ "seconds": "15.0",
+ "procMs": "1784",
+ "realtimeFactor": "8x",
+ "snrInDb": "5.0",
+ "snrOutDb": "11.6",
+ "noiseInPausesDb": "-43.1",
+ "pauseFrames": 40
+}

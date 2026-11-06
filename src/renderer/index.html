@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'">
+<title>Calmo</title><link rel="stylesheet" href="styles.css"></head>
+<body>
+<header><div class="logo">●</div><div><h1>Calmo</h1><p>Cancelamento de ruído do microfone</p></div>
+  <span id="status" class="pill off">Desligado</span></header>
+<main>
+  <section class="card">
+    <label>Microfone (entrada)</label><select id="input"></select>
+    <label>Saída (microfone virtual)</label><select id="output"></select>
+    <p class="hint" id="hint">Escolha <b>CABLE Input</b> como saída e use <b>CABLE Output</b> como microfone no Teams/Meet/Discord.</p>
+  </section>
+  <section class="card">
+    <div class="row"><span>Cancelamento de ruído</span>
+      <label class="switch"><input type="checkbox" id="nc" checked><span></span></label></div>
+    <button id="toggle" class="primary">Ligar</button>
+  </section>
+  <section class="card">
+    <label>Nível antes</label><div class="meter"><i id="mIn"></i></div>
+    <label>Nível depois</label><div class="meter"><i id="mOut"></i></div>
+    <div class="row small"><span>Voz detectada</span><span id="vad">–</span></div>
+  </section>
+</main>
+<footer>Calmo · CPU · RNNoise</footer>
+<script type="module" src="app.js"></script>
+</body></html>
