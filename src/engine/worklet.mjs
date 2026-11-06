@@ -5,7 +5,7 @@ import { FrameDenoiser } from './denoiser.mjs';
 let rn = null;
 Rnnoise.load().then((r) => { rn = r; });
 
-class CalmoProcessor extends AudioWorkletProcessor {
+class ClearmicProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
     this.den = null; // criado quando o WASM terminar de carregar (passa direto até lá)
@@ -23,4 +23,4 @@ class CalmoProcessor extends AudioWorkletProcessor {
     return true;
   }
 }
-registerProcessor('calmo-denoise', CalmoProcessor);
+registerProcessor('clearmic-denoise', ClearmicProcessor);

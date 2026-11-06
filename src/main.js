@@ -4,7 +4,7 @@ app.commandLine.appendSwitch('disable-renderer-backgrounding'); // áudio segue 
 let win;
 app.whenReady().then(() => {
   win = new BrowserWindow({
-    width: 460, height: 620, resizable: false, title: 'Calmo', backgroundColor: '#0f1115',
+    width: 460, height: 620, resizable: false, title: 'Clearmic', backgroundColor: '#0f1115',
     autoHideMenuBar: true,
     webPreferences: { preload: path.join(__dirname, 'preload.js'), backgroundThrottling: false },
   });
@@ -13,8 +13,8 @@ app.whenReady().then(() => {
 });
 app.on('window-all-closed', () => app.quit());
 
-// Teste de fumaça: CALMO_SMOKE=1 liga o pipeline com dispositivo falso e imprime os níveis.
-if (process.env.CALMO_SMOKE) {
+// Teste de fumaça: CLEARMIC_SMOKE=1 liga o pipeline com dispositivo falso e imprime os níveis.
+if (process.env.CLEARMIC_SMOKE) {
   app.commandLine.appendSwitch('use-fake-device-for-media-stream');
   app.commandLine.appendSwitch('use-fake-ui-for-media-stream');
   app.whenReady().then(() => setTimeout(async () => {

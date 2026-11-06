@@ -1,5 +1,5 @@
 {
-  "name": "calmo",
+  "name": "clearmic",
   "version": "0.1.0",
   "description": "Cancelamento de ruído do microfone para Windows (estilo Krisp), CPU-only.",
   "main": "src/main.js",
@@ -15,8 +15,8 @@
     "@shiguredo/rnnoise-wasm": "^2025.1.5"
   },
   "build": {
-    "appId": "com.vitorkloy.calmo",
-    "productName": "Calmo",
+    "appId": "com.vitorkloy.clearmic",
+    "productName": "Clearmic",
     "files": [
       "src/**/*",
       "package.json"

@@ -24,7 +24,7 @@ async function start() {
     deviceId: { exact: $('input').value }, channelCount: 1,
     noiseSuppression: false, echoCancellation: false, autoGainControl: false } });
   const src = ctx.createMediaStreamSource(stream);
-  node = new AudioWorkletNode(ctx, 'calmo-denoise', { numberOfOutputs: 1, outputChannelCount: [2] });
+  node = new AudioWorkletNode(ctx, 'clearmic-denoise', { numberOfOutputs: 1, outputChannelCount: [2] });
   node.port.postMessage({ enabled: $('nc').checked });
   node.port.onmessage = (e) => { $('vad').textContent = Math.round(e.data.vad * 100) + '%'; };
   anIn = ctx.createAnalyser(); anOut = ctx.createAnalyser();

@@ -1,4 +1,4 @@
-# Calmo
+# Clearmic
 
 Cancelamento de ruído do microfone para Windows, no estilo do Krisp. Roda só na CPU, sem GPU e sem NVIDIA Broadcast.
 
