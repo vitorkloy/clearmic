@@ -9,6 +9,11 @@ app.whenReady().then(() => {
     webPreferences: { preload: path.join(__dirname, 'preload.js'), backgroundThrottling: false },
   });
   win.webContents.session.setPermissionRequestHandler((_wc, perm, cb) => cb(perm === 'media'));
+  if (app.isPackaged && !process.env.CLEARMIC_SMOKE) {
+    // Auto-atualização via GitHub Releases (latest*.yml). Falhas de rede são ignoradas.
+    const { autoUpdater } = require('electron-updater');
+    autoUpdater.checkForUpdatesAndNotify().catch(() => {});
+  }
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 });
 app.on('window-all-closed', () => app.quit());

@@ -3,3 +3,4 @@ dist/
 src/vendor/
 test/*.wav
 !test/clean.wav
+build-out/

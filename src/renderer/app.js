@@ -14,7 +14,7 @@ async function listDevices() {
     else if (cable) sel.value = cable.value;
   };
   fill($('input'), 'audioinput', 'in', /^$/);
-  fill($('output'), 'audiooutput', 'out', /cable input|virtual/i);
+  fill($('output'), 'audiooutput', 'out', /cable input|virtual|blackhole|clearmic/i);
 }
 
 async function start() {

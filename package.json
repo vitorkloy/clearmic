@@ -7,12 +7,14 @@
     "postinstall": "node scripts/vendor.mjs",
     "start": "electron .",
     "test:dsp": "node scripts/test-dsp.mjs",
-    "dist": "electron-builder --win portable nsis"
+    "dist": "electron-builder --publish never",
+    "release": "node scripts/release.mjs"
   },
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
-    "@shiguredo/rnnoise-wasm": "^2025.1.5"
+    "@shiguredo/rnnoise-wasm": "^2025.1.5",
+    "electron-updater": "^6.8.11"
   },
   "build": {
     "appId": "com.vitorkloy.clearmic",
@@ -21,15 +23,96 @@
       "src/**/*",
       "package.json"
     ],
+    "directories": {
+      "output": "build-out"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "vitorkloy",
+      "repo": "clearmic",
+      "releaseType": "release"
+    },
     "win": {
       "target": [
-        "nsis",
-        "portable"
-      ]
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "artifactName": "Clearmic_${version}_x64-setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "Clearmic_${version}_x64-portable.${ext}"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "AudioVideo",
+      "maintainer": "Vitor de Oliveira <vitorkloy@users.noreply.github.com>",
+      "artifactName": "Clearmic_${version}_${arch}.${ext}"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.utilities",
+      "identity": null,
+      "artifactName": "Clearmic_${version}_${arch}.${ext}",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "O Clearmic usa o microfone para remover o ruído de fundo da sua voz."
+      }
     }
   },
   "devDependencies": {
     "electron": "^28.3.3",
     "electron-builder": "^26.18.0"
+  },
+  "author": {
+    "name": "Vitor de Oliveira",
+    "email": "vitorkloy@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/vitorkloy/clearmic",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vitorkloy/clearmic.git"
   }
 }
