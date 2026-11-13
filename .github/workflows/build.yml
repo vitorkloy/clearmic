@@ -1,0 +1,85 @@
+name: Build
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: build (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: clearmic-windows
+            builder_args: --win
+            files: |
+              build-out/Clearmic_*_x64-setup.exe
+              build-out/Clearmic_*_x64-setup.exe.blockmap
+              build-out/Clearmic_*_x64-portable.exe
+              build-out/latest.yml
+          - os: ubuntu-latest
+            artifact: clearmic-linux
+            builder_args: --linux
+            files: |
+              build-out/*.AppImage
+              build-out/*.deb
+              build-out/latest-linux.yml
+          - os: macos-latest
+            artifact: clearmic-macos
+            builder_args: --mac
+            files: |
+              build-out/*.dmg
+              build-out/*.zip
+              build-out/*.blockmap
+              build-out/latest-mac.yml
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Teste do DSP (RNNoise)
+        run: npm run test:dsp
+      - name: Build (electron-builder, sem publicar, sem assinatura)
+        shell: bash
+        run: npx electron-builder ${{ matrix.builder_args }} --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.files }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: clearmic-*
+          path: dist
+          merge-multiple: true
+      - name: Publicar GitHub Release (Windows, Linux e macOS)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          ls -la dist
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$TAG" dist/* --repo "$GITHUB_REPOSITORY" \
+              --title "Clearmic $TAG" --generate-notes --verify-tag
+          fi
